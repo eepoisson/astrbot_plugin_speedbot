@@ -109,7 +109,9 @@ class Main(Star):
         await self.priority_queue.start()
 
         # --- 流式渲染 ---
-        self.stream_renderer = StreamRenderer()
+        dr_cfg = self.config.get("deepseek_reasoner", {})
+        strip_tags = dr_cfg.get("enable", False) and dr_cfg.get("strip_thinking_tags", True)
+        self.stream_renderer = StreamRenderer(strip_thinking_tags=strip_tags)
 
         # --- 异步执行器 ---
         self.async_executor = AsyncExecutor()
@@ -165,6 +167,11 @@ class Main(Star):
         request_id = str(uuid.uuid4())[:8]
 
         async with self.monitor.track(request_id) as metrics:
+            # 0. DeepSeek Reasoner 模式：发送「正在思考」提示
+            dr_cfg = self.config.get("deepseek_reasoner", {})
+            if dr_cfg.get("enable", False) and dr_cfg.get("thinking_hint", True):
+                yield event.plain_result("⏳ 正在深度思考，请稍候…")
+
             # 1. 语义缓存查询
             cache_cfg = self.config.get("semantic_cache", {})
             if cache_cfg.get("enable", True):

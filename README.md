@@ -44,7 +44,7 @@ LLM 回复 → 存入语义缓存
 | 意图预分类路由 | `core/intent_router.py` | 正则+关键词匹配简单意图，本地直接回复 | 完全跳过 LLM |
 | HTTP 连接池 | `core/connection_pool.py` | aiohttp.TCPConnector 持久化连接，复用 TCP | 减少 ~100ms 握手 |
 | 优先级队列 | `core/priority_queue.py` | asyncio.PriorityQueue 智能调度，Semaphore 控并发 | 高并发不饿死 |
-| 流式渲染器 | `core/stream_renderer.py` | LLM streaming token 按句分发，首字节即显示 | 体感延迟降低 80% |
+| 流式渲染器 | `core/stream_renderer.py` | LLM streaming token 按句分发，首字节即显示；**DeepSeek R1：自动剥离 `<think>` 推理链** | 体感延迟降低 80% |
 | 异步执行器 | `core/async_executor.py` | run_in_executor 将同步阻塞转异步 | 主线程不阻塞 |
 
 ---
@@ -136,6 +136,24 @@ pip install numpy>=1.24.0 aiohttp>=3.9.0
 | `enable` | bool | `true` | 是否启用性能监控 |
 | `slow_threshold_ms` | int | `3000` | 慢响应阈值（毫秒），超过则记录警告 |
 
+### DeepSeek Reasoner 推理链过滤（新功能）
+
+当使用 DeepSeek R1 / Reasoner 模型时，可开启以下配置自动过滤 `<think>…</think>` 推理链，
+让用户只看到干净的最终答案：
+
+```yaml
+deepseek_reasoner:
+  enable: true              # 开启专项优化
+  strip_thinking_tags: true # 自动剥离 <think>…</think>（推荐）
+  thinking_hint: true       # 推理期间发送「⏳ 正在深度思考」提示
+```
+
+| 参数 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| `enable` | bool | `false` | 启用 DeepSeek Reasoner 流式过滤 |
+| `strip_thinking_tags` | bool | `true` | 剥离 `<think>…</think>` 推理链 |
+| `thinking_hint` | bool | `true` | 推理期间向用户发送进度提示 |
+
 ---
 
 ## 性能预期对比
@@ -219,7 +237,7 @@ astrbot_plugin_speedbot/
 │   ├── intent_router.py       # 意图预分类路由器
 │   ├── priority_queue.py      # 优先级消息队列
 │   ├── connection_pool.py     # HTTP 连接池管理
-│   ├── stream_renderer.py     # 流式输出渲染器
+│   ├── stream_renderer.py     # 流式输出渲染器（含 DeepSeek R1 think-tag 过滤）
 │   └── async_executor.py      # 异步执行器
 │
 └── utils/                     # 工具模块

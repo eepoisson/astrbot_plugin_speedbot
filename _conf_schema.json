@@ -43,5 +43,14 @@
       "enable": { "type": "bool", "default": true, "description": "启用性能监控" },
       "slow_threshold_ms": { "type": "int", "default": 20000, "description": "慢响应阈值（毫秒）。DeepSeek Reasoner 建议 20000，链式思考响应时间 5-30s 属正常" }
     }
+  },
+  "deepseek_reasoner": {
+    "description": "DeepSeek R1 / Reasoner 推理模型专项优化配置",
+    "type": "object",
+    "properties": {
+      "enable": { "type": "bool", "default": false, "description": "启用 DeepSeek Reasoner 专项优化（当 AstrBot 配置的模型为 deepseek-reasoner 或 DeepSeek-R1 系列时开启）" },
+      "strip_thinking_tags": { "type": "bool", "default": true, "description": "自动剥离 <think>…</think> 推理链，用户只看到最终答案（推荐开启）" },
+      "thinking_hint": { "type": "bool", "default": true, "description": "在推理链被剥离时向用户发送「正在思考…」提示，告知用户模型正在推理" }
+    }
   }
 }

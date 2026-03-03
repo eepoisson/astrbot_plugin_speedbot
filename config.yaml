@@ -21,6 +21,18 @@ intent_router:
   # 自定义意图规则文件路径（JSON 格式，留空则不加载）
   custom_intents_path: ""
 
+# ============================================================
+# DeepSeek R1 / Reasoner 流式推理链过滤
+# 当 AstrBot 使用 deepseek-reasoner、DeepSeek-R1 等推理模型时启用
+# ============================================================
+deepseek_reasoner:
+  # 启用 DeepSeek Reasoner 流式输出专项优化（think 标签过滤）
+  enable: false
+  # 自动剥离 <think>…</think> 推理链，用户只看到最终干净答案（推荐开启）
+  strip_thinking_tags: true
+  # 在推理期间向用户发送「⏳ 正在深度思考，请稍候…」提示
+  thinking_hint: true
+
 connection_pool:
   # 是否启用 HTTP 连接池优化
   enable: true
