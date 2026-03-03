@@ -1,0 +1,42 @@
+# SpeedBot 加速引擎 - 用户自定义配置模板
+# 将此文件内容复制到 AstrBot 插件配置中，或通过 WebUI 进行配置
+
+semantic_cache:
+  # 是否启用语义向量缓存
+  enable: true
+  # 余弦相似度阈值，越高越严格（0.0-1.0）
+  similarity_threshold: 0.92
+  # 最大缓存条目数（超出时使用 LRU 淘汰）
+  max_cache_size: 1000
+  # 缓存过期时间（秒），默认1小时
+  ttl_seconds: 3600
+
+intent_router:
+  # 是否启用意图快速路由
+  enable: true
+  # 自定义意图规则文件路径（JSON 格式，留空则不加载）
+  custom_intents_path: ""
+
+connection_pool:
+  # 是否启用 HTTP 连接池优化
+  enable: true
+  # 最大连接数
+  pool_size: 100
+  # 每主机最大连接数
+  per_host_limit: 30
+  # 长连接保活时间（秒）
+  keepalive_timeout: 60
+
+priority_queue:
+  # 是否启用优先级队列
+  enable: true
+  # 最大并发处理数
+  max_concurrent: 5
+  # 管理员指令优先级提升值（数值越小优先级越高）
+  admin_priority_boost: 10
+
+monitor:
+  # 是否启用性能监控
+  enable: true
+  # 慢响应阈值（毫秒），超过则记录警告
+  slow_threshold_ms: 3000

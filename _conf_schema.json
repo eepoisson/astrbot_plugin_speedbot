@@ -1,0 +1,47 @@
+{
+  "semantic_cache": {
+    "description": "语义向量缓存配置",
+    "type": "object",
+    "properties": {
+      "enable": { "type": "bool", "default": true, "description": "启用语义缓存" },
+      "similarity_threshold": { "type": "float", "default": 0.92, "description": "相似度阈值 (0.0-1.0)" },
+      "max_cache_size": { "type": "int", "default": 1000, "description": "最大缓存条目数" },
+      "ttl_seconds": { "type": "int", "default": 3600, "description": "缓存过期时间（秒）" }
+    }
+  },
+  "intent_router": {
+    "description": "意图预分类配置",
+    "type": "object",
+    "properties": {
+      "enable": { "type": "bool", "default": true, "description": "启用意图快速路由" },
+      "custom_intents_path": { "type": "str", "default": "", "description": "自定义意图规则文件路径" }
+    }
+  },
+  "connection_pool": {
+    "description": "HTTP 连接池配置",
+    "type": "object",
+    "properties": {
+      "enable": { "type": "bool", "default": true, "description": "启用连接池优化" },
+      "pool_size": { "type": "int", "default": 100, "description": "最大连接数" },
+      "per_host_limit": { "type": "int", "default": 30, "description": "每主机最大连接数" },
+      "keepalive_timeout": { "type": "int", "default": 60, "description": "长连接保活时间（秒）" }
+    }
+  },
+  "priority_queue": {
+    "description": "优先级队列配置",
+    "type": "object",
+    "properties": {
+      "enable": { "type": "bool", "default": true, "description": "启用优先级队列" },
+      "max_concurrent": { "type": "int", "default": 5, "description": "最大并发处理数" },
+      "admin_priority_boost": { "type": "int", "default": 10, "description": "管理员指令优先级提升值" }
+    }
+  },
+  "monitor": {
+    "description": "性能监控配置",
+    "type": "object",
+    "properties": {
+      "enable": { "type": "bool", "default": true, "description": "启用性能监控" },
+      "slow_threshold_ms": { "type": "int", "default": 3000, "description": "慢响应阈值（毫秒）" }
+    }
+  }
+}
