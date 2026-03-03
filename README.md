@@ -1,0 +1,2 @@
+# astrbot_plugin_speedbot
+astrbot_plugin_speedbot
