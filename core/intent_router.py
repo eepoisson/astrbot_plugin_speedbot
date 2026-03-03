@@ -101,12 +101,13 @@ def _make_identity_handler() -> Callable[[str], str]:
     def handler(sender_name: str) -> str:
         return (
             "🤖 我是 SpeedBot 加速引擎插件！\n"
+            "当前已针对 DeepSeek 3.2 Reasoner 模型进行专项调优。\n"
             "我的职责是多维度加速 AstrBot 的响应速度：\n"
-            "• 语义缓存 — 毫秒级命中历史问题\n"
-            "• 意图路由 — 简单问题本地直接回复\n"
-            "• 连接池 — 复用 TCP 长连接\n"
-            "• 优先级队列 — 智能调度并发请求\n"
-            "• 流式渲染 — 首字节即显示\n"
+            "• 语义缓存 — 毫秒级命中历史问题（Reasoner 结果高价值，TTL 延长至 2h）\n"
+            "• 意图路由 — 简单问题本地直接回复，跳过 Reasoner 推理\n"
+            "• 连接池 — 复用 TCP 长连接（保活 120s 适配推理耗时）\n"
+            "• 优先级队列 — 并发上限 2，适配 DeepSeek API 速率限制\n"
+            "• 流式渲染 — 首字节即显示，减少 Reasoner 长等待感\n"
             "• 异步执行器 — 防止主线程阻塞"
         )
 

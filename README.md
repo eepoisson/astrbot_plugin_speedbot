@@ -51,6 +51,8 @@ LLM 回复 → 存入语义缓存
 
 ## 安装与配置
 
+> 📖 **完整打包下载安装说明**（含 DeepSeek Reasoner 专项配置）请参阅 **[INSTALL.md](INSTALL.md)**。
+
 ### 方法 1：通过 AstrBot 命令安装（推荐）
 
 在 AstrBot 中输入：
@@ -59,9 +61,9 @@ LLM 回复 → 存入语义缓存
 /plugin install astrbot_plugin_speedbot
 ```
 
-### 方法 2：手动安装
+### 方法 2：手动安装（本地插件库）
 
-1. 克隆或下载本仓库到 AstrBot 的 `addons/plugins/` 目录：
+1. 下载或克隆本仓库到 AstrBot 的 `addons/plugins/` 目录，**目录名必须为 `astrbot_plugin_speedbot`**：
 
 ```bash
 cd /path/to/astrbot/addons/plugins/
@@ -161,6 +163,22 @@ SpeedBot 内置以下快速响应意图，命中后**不消耗 LLM 调用**：
 
 ---
 
+## DeepSeek 3.2 Reasoner 专项调优
+
+当 AstrBot 配置使用 **DeepSeek 3.2 Reasoner（`deepseek-reasoner`）** 时，本插件的默认配置已自动针对该模型特性进行调整：
+
+| 参数 | 通用值 | Reasoner 调优值 | 原因 |
+|------|--------|----------------|------|
+| `semantic_cache.similarity_threshold` | 0.92 | **0.88** | 覆盖措辞变化，减少高成本推理调用 |
+| `semantic_cache.ttl_seconds` | 3600 | **7200** | 推理结果成本高，缓存时长延至 2 小时 |
+| `connection_pool.keepalive_timeout` | 60 | **120** | 推理耗时 5-30s，防止连接等待期断开 |
+| `priority_queue.max_concurrent` | 5 | **2** | 符合 DeepSeek API 并发速率限制，避免 429 |
+| `monitor.slow_threshold_ms` | 3000 | **20000** | Reasoner 正常响应 5-30s，避免误报 |
+
+> 详细说明与配置方法请参阅 **[INSTALL.md](INSTALL.md)**。
+
+---
+
 ## 注意事项
 
 1. **语义缓存精度**：相似度阈值默认 0.92，可根据实际效果调整。阈值过低可能导致误命中。
@@ -192,7 +210,8 @@ astrbot_plugin_speedbot/
 ├── _conf_schema.json          # 插件配置 Schema（WebUI 可编辑）
 ├── requirements.txt           # Python 依赖
 ├── README.md                  # 本文件
-├── config.yaml                # 用户自定义配置模板
+├── INSTALL.md                 # 打包下载安装说明（含本地插件库部署指南）
+├── config.yaml                # 用户自定义配置模板（已针对 DeepSeek Reasoner 调优）
 │
 ├── core/                      # 核心引擎模块
 │   ├── __init__.py
