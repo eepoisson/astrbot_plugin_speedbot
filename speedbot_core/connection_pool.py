@@ -16,7 +16,7 @@ from typing import AsyncGenerator, Optional
 try:
     import aiohttp
     _AIOHTTP_AVAILABLE = True
-except ImportError:
+except (ImportError, RuntimeError, OSError):
     _AIOHTTP_AVAILABLE = False
 
 

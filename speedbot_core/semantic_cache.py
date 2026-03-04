@@ -22,7 +22,7 @@ from typing import Dict, List, Optional, Tuple
 try:
     import numpy as np
     _NUMPY_AVAILABLE = True
-except ImportError:
+except (ImportError, RuntimeError, OSError):
     _NUMPY_AVAILABLE = False
 
 

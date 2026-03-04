@@ -14,15 +14,10 @@ import os
 import sys
 import uuid
 
-# Ensure the plugin directory is on sys.path so that the `speedbot_core` and
-# `speedbot_utils` sub-packages can be imported by name regardless of how
-# AstrBot loads the module.
-_PLUGIN_DIR = os.path.dirname(os.path.abspath(__file__))
-if _PLUGIN_DIR not in sys.path:
-    sys.path.insert(0, _PLUGIN_DIR)
-
+# AstrBot API imports must happen before we modify sys.path so that none of
+# AstrBot's own modules are accidentally shadowed by files in the plugin dir.
 from astrbot.api import logger
-from astrbot.api.event import AstrMessageEvent, MessageEventResult
+from astrbot.api.event import AstrMessageEvent
 from astrbot.api.event.filter import (
     EventMessageType,
     command,
@@ -31,6 +26,13 @@ from astrbot.api.event.filter import (
     on_llm_request,
 )
 from astrbot.api.star import Context, Star
+
+# Add the plugin directory to sys.path so that the `speedbot_core` and
+# `speedbot_utils` sub-packages can be imported by name, regardless of how
+# AstrBot resolves the module path.
+_PLUGIN_DIR = os.path.dirname(os.path.abspath(__file__))
+if _PLUGIN_DIR not in sys.path:
+    sys.path.insert(0, _PLUGIN_DIR)
 
 from speedbot_core.async_executor import AsyncExecutor
 from speedbot_core.connection_pool import ConnectionPool
