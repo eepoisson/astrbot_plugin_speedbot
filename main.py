@@ -23,14 +23,14 @@ from astrbot.api.event.filter import (
 )
 from astrbot.api.star import Context, Star
 
-from core.async_executor import AsyncExecutor
-from core.connection_pool import ConnectionPool
-from core.intent_router import IntentRouter
-from core.priority_queue import Priority, PriorityQueue
-from core.semantic_cache import SemanticCache
-from core.stream_renderer import StreamRenderer
-from utils.circuit_breaker import CircuitBreaker
-from utils.monitor import PerformanceMonitor
+from speedbot_core.async_executor import AsyncExecutor
+from speedbot_core.connection_pool import ConnectionPool
+from speedbot_core.intent_router import IntentRouter
+from speedbot_core.priority_queue import Priority, PriorityQueue
+from speedbot_core.semantic_cache import SemanticCache
+from speedbot_core.stream_renderer import StreamRenderer
+from speedbot_utils.circuit_breaker import CircuitBreaker
+from speedbot_utils.monitor import PerformanceMonitor
 
 
 class Main(Star):

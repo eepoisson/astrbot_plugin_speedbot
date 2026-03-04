@@ -40,12 +40,12 @@ LLM 回复 → 存入语义缓存
 
 | 模块 | 文件 | 功能 | 加速效果 |
 |------|------|------|---------|
-| 语义向量缓存 | `core/semantic_cache.py` | 字符 n-gram TF-IDF 向量化，余弦相似度匹配历史问题 | 秒级 → 毫秒级 |
-| 意图预分类路由 | `core/intent_router.py` | 正则+关键词匹配简单意图，本地直接回复 | 完全跳过 LLM |
-| HTTP 连接池 | `core/connection_pool.py` | aiohttp.TCPConnector 持久化连接，复用 TCP | 减少 ~100ms 握手 |
-| 优先级队列 | `core/priority_queue.py` | asyncio.PriorityQueue 智能调度，Semaphore 控并发 | 高并发不饿死 |
-| 流式渲染器 | `core/stream_renderer.py` | LLM streaming token 按句分发，首字节即显示；**DeepSeek R1：自动剥离 `<think>` 推理链** | 体感延迟降低 80% |
-| 异步执行器 | `core/async_executor.py` | run_in_executor 将同步阻塞转异步 | 主线程不阻塞 |
+| 语义向量缓存 | `speedbot_core/semantic_cache.py` | 字符 n-gram TF-IDF 向量化，余弦相似度匹配历史问题 | 秒级 → 毫秒级 |
+| 意图预分类路由 | `speedbot_core/intent_router.py` | 正则+关键词匹配简单意图，本地直接回复 | 完全跳过 LLM |
+| HTTP 连接池 | `speedbot_core/connection_pool.py` | aiohttp.TCPConnector 持久化连接，复用 TCP | 减少 ~100ms 握手 |
+| 优先级队列 | `speedbot_core/priority_queue.py` | asyncio.PriorityQueue 智能调度，Semaphore 控并发 | 高并发不饿死 |
+| 流式渲染器 | `speedbot_core/stream_renderer.py` | LLM streaming token 按句分发，首字节即显示；**DeepSeek R1：自动剥离 `<think>` 推理链** | 体感延迟降低 80% |
+| 异步执行器 | `speedbot_core/async_executor.py` | run_in_executor 将同步阻塞转异步 | 主线程不阻塞 |
 
 ---
 
@@ -231,7 +231,7 @@ astrbot_plugin_speedbot/
 ├── INSTALL.md                 # 打包下载安装说明（含本地插件库部署指南）
 ├── config.yaml                # 用户自定义配置模板（已针对 DeepSeek Reasoner 调优）
 │
-├── core/                      # 核心引擎模块
+├── speedbot_core/                     # 核心引擎模块
 │   ├── __init__.py
 │   ├── semantic_cache.py      # 语义向量缓存引擎
 │   ├── intent_router.py       # 意图预分类路由器
@@ -240,7 +240,7 @@ astrbot_plugin_speedbot/
 │   ├── stream_renderer.py     # 流式输出渲染器（含 DeepSeek R1 think-tag 过滤）
 │   └── async_executor.py      # 异步执行器
 │
-└── utils/                     # 工具模块
+└── speedbot_utils/                    # 工具模块
     ├── __init__.py
     ├── monitor.py             # 性能监控与统计
     └── circuit_breaker.py     # 熔断器（异常保护）
