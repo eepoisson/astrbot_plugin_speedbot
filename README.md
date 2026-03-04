@@ -15,15 +15,15 @@ v1.0.0 — SpeedBot 加速引擎首个正式版
 ✨ 功能亮点
 六大核心加速模块
 模块	说明	加速效果
-📦 语义向量缓存 (core/semantic_cache.py)	字符 n-gram TF-IDF 向量化 + 余弦相似度匹配历史问题，支持 TTL 过期与 LRU 淘汰	秒级 → 毫秒级 (400x)
-🧭 意图预分类路由 (core/intent_router.py)	正则 + 关键词匹配简单意图（打招呼、问时间、感谢、身份询问），本地直接回复	完全跳过 LLM (1500x)
-🌐 HTTP 连接池 (core/connection_pool.py)	aiohttp.TCPConnector 持久化连接，复用 TCP 长连接	减少 ~100ms 握手
-⚡ 优先级队列 (core/priority_queue.py)	asyncio.PriorityQueue + Semaphore 并发控制，管理员指令优先调度	高并发不饿死
-📝 流式渲染器 (core/stream_renderer.py)	LLM streaming token 按句分发，首字节即显示打字机效果	体感延迟降低 80%
-🔧 异步执行器 (core/async_executor.py)	run_in_executor 将同步阻塞操作委托给线程池	主线程不阻塞
+📦 语义向量缓存 (speedbot_core/semantic_cache.py)	字符 n-gram TF-IDF 向量化 + 余弦相似度匹配历史问题，支持 TTL 过期与 LRU 淘汰	秒级 → 毫秒级 (400x)
+🧭 意图预分类路由 (speedbot_core/intent_router.py)	正则 + 关键词匹配简单意图（打招呼、问时间、感谢、身份询问），本地直接回复	完全跳过 LLM (1500x)
+🌐 HTTP 连接池 (speedbot_core/connection_pool.py)	aiohttp.TCPConnector 持久化连接，复用 TCP 长连接	减少 ~100ms 握手
+⚡ 优先级队列 (speedbot_core/priority_queue.py)	asyncio.PriorityQueue + Semaphore 并发控制，管理员指令优先调度	高并发不饿死
+📝 流式渲染器 (speedbot_core/stream_renderer.py)	LLM streaming token 按句分发，首字节即显示打字机效果	体感延迟降低 80%
+🔧 异步执行器 (speedbot_core/async_executor.py)	run_in_executor 将同步阻塞操作委托给线程池	主线程不阻塞
 辅助模块
-🛡️ 熔断器 (utils/circuit_breaker.py) — 三状态（CLOSED / OPEN / HALF_OPEN）熔断保护，防止下游异常雪崩
-📊 性能监控 (utils/monitor.py) — 请求级计时，输出 avg/p50/p95 延迟与来源分布
+🛡️ 熔断器 (speedbot_utils/circuit_breaker.py) — 三状态（CLOSED / OPEN / HALF_OPEN）熔断保护，防止下游异常雪崩
+📊 性能监控 (speedbot_utils/monitor.py) — 请求级计时，输出 avg/p50/p95 延迟与来源分布
 插件命令
 命令	说明
 /speed stats	显示所有模块综合性能统计
@@ -66,14 +66,14 @@ astrbot_plugin_speedbot/
 ├── _conf_schema.json       # 配置 Schema
 ├── config.yaml             # 配置模板（已调优）
 ├── requirements.txt        # Python 依赖
-├── core/                   # 六大核心引擎模块
+├── speedbot_core/           # 六大核心引擎模块
 │   ├── semantic_cache.py
 │   ├── intent_router.py
 │   ├── priority_queue.py
 │   ├── connection_pool.py
 │   ├── stream_renderer.py
 │   └── async_executor.py
-└── utils/                  # 工具模块
+└── speedbot_utils/          # 工具模块
     ├── monitor.py
     └── circuit_breaker.py
 Full Changelog: https://github.com/eepoisson/astrbot_plugin_speedbot/commits/v1.0.0
