@@ -1,0 +1,7 @@
+name: astrbot_plugin_speedbot
+display_name: SpeedBot 加速引擎
+desc: 多维度加速 AstrBot 响应速度：语义缓存、意图预分类、连接池优化、流式渲染、优先级队列
+version: 1_03
+author: eepoisson
+repo: https://github.com/eepoisson/astrbot_plugin_speedbot
+astrbot_version: ">=4.0.0"
