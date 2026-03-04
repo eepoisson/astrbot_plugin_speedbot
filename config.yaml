@@ -1,0 +1,64 @@
+# SpeedBot 加速引擎 - 用户自定义配置模板
+# 已针对 DeepSeek 3.2 Reasoner (deepseek-reasoner) 模型进行调优
+# 将此文件内容复制到 AstrBot 插件配置中，或通过 WebUI 进行配置
+
+semantic_cache:
+  # 是否启用语义向量缓存
+  enable: true
+  # 余弦相似度阈值，越高越严格（0.0-1.0）
+  # DeepSeek Reasoner 调优：适当降低阈值以覆盖语义等价但措辞不同的问题，
+  # 因为 Reasoner 的推理结果对输入措辞变化更敏感，缓存节省的成本更高
+  similarity_threshold: 0.88
+  # 最大缓存条目数（超出时使用 LRU 淘汰）
+  max_cache_size: 1000
+  # 缓存过期时间（秒）
+  # DeepSeek Reasoner 调优：设置为 2 小时（7200s），因推理结果更稳定且生成成本更高
+  ttl_seconds: 7200
+
+intent_router:
+  # 是否启用意图快速路由
+  enable: true
+  # 自定义意图规则文件路径（JSON 格式，留空则不加载）
+  custom_intents_path: ""
+
+# ============================================================
+# DeepSeek R1 / Reasoner 流式推理链过滤
+# 当 AstrBot 使用 deepseek-reasoner、DeepSeek-R1 等推理模型时启用
+# ============================================================
+deepseek_reasoner:
+  # 启用 DeepSeek Reasoner 流式输出专项优化（think 标签过滤）
+  enable: false
+  # 自动剥离 <think>…</think> 推理链，用户只看到最终干净答案（推荐开启）
+  strip_thinking_tags: true
+  # 在推理期间向用户发送「⏳ 正在深度思考，请稍候…」提示
+  thinking_hint: true
+
+connection_pool:
+  # 是否启用 HTTP 连接池优化
+  enable: true
+  # 最大连接数
+  pool_size: 100
+  # 每主机最大连接数
+  per_host_limit: 30
+  # 长连接保活时间（秒）
+  # DeepSeek Reasoner 调优：设置为 120s，因推理过程耗时较长（平均 10-60s），
+  # 延长保活时间可避免连接在等待响应期间超时断开
+  keepalive_timeout: 120
+
+priority_queue:
+  # 是否启用优先级队列
+  enable: true
+  # 最大并发处理数
+  # DeepSeek Reasoner 调优：调低为 2，符合 DeepSeek API 默认并发限制，
+  # 避免因超出速率限制（429 Too Many Requests）导致请求失败
+  max_concurrent: 2
+  # 管理员指令优先级提升值（数值越小优先级越高）
+  admin_priority_boost: 10
+
+monitor:
+  # 是否启用性能监控
+  enable: true
+  # 慢响应阈值（毫秒），超过则记录警告
+  # DeepSeek Reasoner 调优：调高为 20000ms（20s），因 Reasoner 在输出答案前
+  # 需要完整的链式思考（chain-of-thought）推理过程，正常响应时间为 5-30s
+  slow_threshold_ms: 20000
