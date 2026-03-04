@@ -65,8 +65,8 @@ class StreamRenderer:
             min_chunk_size: 最小分段字符数，避免发送太碎的片段 / Min chars per chunk.
             max_buffer_wait: 缓冲区最长等待时间（秒） / Max buffer wait before forced flush.
             inter_chunk_delay: 分段间发送延迟（秒），营造打字机节奏 / Delay between chunks.
-            strip_thinking_tags: 是否剥离 DeepSeek R1 的 <think>…</think> 推理块。
-                                 Set True when using DeepSeek R1 / Reasoner models.
+            strip_thinking_tags: 是否剥离 DeepSeek R1 的 <think>…</think> 推理块 /
+                                 Whether to strip DeepSeek R1 <think>…</think> reasoning blocks.
         """
         self.min_chunk_size = min_chunk_size
         self.max_buffer_wait = max_buffer_wait
